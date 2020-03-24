@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary">
+
+    <ImageView
+        android:id="@+id/image_art"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_android"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
+
+    <LinearLayout
+        android:id="@+id/container_repeat_shuffle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_space"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/image_art">
+
+        <ImageView
+            android:id="@+id/image_replay"
+            android:layout_width="@dimen/button_control_size_secondary"
+            android:layout_height="@dimen/button_control_size_secondary"
+            android:layout_marginEnd="@dimen/large_space"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/button_replay"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/image_shuffle"
+            android:layout_width="@dimen/button_control_size_secondary"
+            android:layout_height="@dimen/button_control_size_secondary"
+            android:layout_marginStart="@dimen/large_space"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/button_shuffle"
+            tools:ignore="ContentDescription" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/text_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_space"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="@dimen/default_space"
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:singleLine="true"
+        android:textAlignment="center"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/container_repeat_shuffle"
+        tools:text="Killer Queen" />
+
+    <TextView
+        android:id="@+id/text_artist"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_space"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="@dimen/default_space"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textAlignment="center"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        app:layout_constraintTop_toBottomOf="@id/text_title"
+        tools:text="Queen" />
+
+    <androidx.appcompat.widget.AppCompatSeekBar
+        android:id="@+id/seekbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_space"
+        android:layout_marginTop="@dimen/large_space"
+        android:layout_marginEnd="@dimen/default_space"
+        android:progressBackgroundTint="@android:color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_artist" />
+
+    <TextView
+        android:id="@+id/text_current_duration"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/large_space"
+        android:layout_marginTop="@dimen/small_space"
+        android:textAlignment="textStart"
+        android:textColor="@android:color/white"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/seekbar"
+        tools:text="00:00" />
+
+    <TextView
+        android:id="@+id/text_total_duration"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/small_space"
+        android:layout_marginEnd="@dimen/large_space"
+        android:textAlignment="textEnd"
+        android:textColor="@android:color/white"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/seekbar"
+        tools:text="03:27" />
+
+    <LinearLayout
+        android:id="@+id/container_control"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/default_space"
+        android:paddingTop="@dimen/default_space"
+        android:paddingEnd="@dimen/default_space"
+        android:paddingBottom="@dimen/large_space"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:id="@+id/image_previous"
+            android:layout_width="@dimen/button_control_size_secondary"
+            android:layout_height="@dimen/button_control_size_secondary"
+            android:layout_marginEnd="@dimen/small_space"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/button_previous"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/image_rewind"
+            android:layout_width="@dimen/button_control_size_secondary"
+            android:layout_height="@dimen/button_control_size_secondary"
+            android:layout_marginEnd="@dimen/small_space"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/button_rewind"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/image_play"
+            android:layout_width="@dimen/button_control_size_primary"
+            android:layout_height="@dimen/button_control_size_primary"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/button_play"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/image_forward"
+            android:layout_width="@dimen/button_control_size_secondary"
+            android:layout_height="@dimen/button_control_size_secondary"
+            android:layout_marginStart="@dimen/small_space"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/button_forward"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/image_next"
+            android:layout_width="@dimen/button_control_size_secondary"
+            android:layout_height="@dimen/button_control_size_secondary"
+            android:layout_marginStart="@dimen/small_space"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/button_next"
+            tools:ignore="ContentDescription" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

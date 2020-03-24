@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="small_space">8dp</dimen>
+    <dimen name="default_space">16dp</dimen>
+    <dimen name="big_space">24dp</dimen>
+    <dimen name="large_space">32dp</dimen>
+
+    <dimen name="button_control_size_primary">64dp</dimen>
+    <dimen name="button_control_size_secondary">40dp</dimen>
+    <dimen name="row_item_image_art_size">32dp</dimen>
+</resources>
