@@ -8,6 +8,7 @@ import org.greenrobot.eventbus.Subscribe
 abstract class BaseFragment<I : Mp3Intent, S : Mp3ViewState> : Fragment(), Mp3View<I, S> {
 
     private val mEventBus = EventBus.getDefault()
+    private var mIsRunning: Boolean = false
 
     override fun onStart() {
         super.onStart()
@@ -18,8 +19,13 @@ abstract class BaseFragment<I : Mp3Intent, S : Mp3ViewState> : Fragment(), Mp3Vi
 
     @Subscribe
     fun onEvent(event: PermissionGranted) {
-        bindIntent(intents())
-        observeState()
+        if (!mIsRunning) {
+            // this is called from Activity onResume due to Permission Checking
+            // should only populate intent once
+            bindIntent(intents())
+            observeState()
+            mIsRunning = true
+        }
     }
 
     override fun onDestroy() {

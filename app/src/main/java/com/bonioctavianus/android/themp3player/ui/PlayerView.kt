@@ -74,7 +74,7 @@ class PlayerView(context: Context, attributeSet: AttributeSet) :
     private fun renderPlaylist() {
         if (mCurrentState?.playlistVisible == true) {
             mFragmentManager?.let {
-                if (!mPlaylistView.isVisible && !mPlaylistView.isAdded) {
+                if (!mPlaylistView.isVisible) {
                     mPlaylistView.show(it, "Show Song Playlist")
                 }
             }

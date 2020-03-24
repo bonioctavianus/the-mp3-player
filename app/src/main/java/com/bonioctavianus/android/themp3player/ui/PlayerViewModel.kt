@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 class PlayerViewModel(
     private val mInteractor: PlayerInteractor
-) : BaseViewModel<SongIntent, SongPartialState>() {
+) : BaseViewModel<SongIntent, SongViewState>() {
 
     val mState: MutableLiveData<SongViewState> = MutableLiveData()
     val mDurationState: MutableLiveData<SongViewState> = MutableLiveData()

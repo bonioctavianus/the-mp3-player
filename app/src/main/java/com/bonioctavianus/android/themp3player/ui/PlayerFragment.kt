@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.fragment_player.*
 import timber.log.Timber
 import javax.inject.Inject
 
-class PlayerFragment : BaseFragment<SongIntent, SongPartialState>() {
+class PlayerFragment : BaseFragment<SongIntent, SongViewState>() {
 
     @Inject
     lateinit var mViewModel: PlayerViewModel
@@ -65,7 +65,7 @@ class PlayerFragment : BaseFragment<SongIntent, SongPartialState>() {
 
         mViewModel.mDurationState.observe(viewLifecycleOwner, Observer { value ->
             player_view.renderDuration(value)
-            Timber.d("Received Value: ${value.data?.track?.currentDuration}")
+            Timber.d("Received Duration: ${value.data?.track?.currentDuration}")
         })
     }
 
