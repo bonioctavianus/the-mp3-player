@@ -100,4 +100,9 @@ class SongService : Service() {
         mSongPlayer.onCleared()
         mDisposables.dispose()
     }
+
+    override fun onTaskRemoved(rootIntent: Intent?) {
+        super.onTaskRemoved(rootIntent)
+        stopSelf()
+    }
 }
