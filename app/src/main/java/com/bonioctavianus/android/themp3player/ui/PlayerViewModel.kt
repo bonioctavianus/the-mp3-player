@@ -66,7 +66,14 @@ class PlayerViewModel(
                     previousState
                         .copy(
                             durationInProgress = false,
-                            playlistVisible = false
+                            playlistVisible = false,
+                            data = previousState.data
+                                ?.copy(
+                                    track = previousState.data.track
+                                        .copy(
+                                            progress = change.position
+                                        )
+                                )
                         )
                 }
                 is SongPartialState.LoadSongs.InFlight -> {

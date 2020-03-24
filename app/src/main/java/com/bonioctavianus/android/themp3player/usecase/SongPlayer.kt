@@ -32,7 +32,6 @@ class SongPlayer @Inject constructor(
 
     init {
         mMediaPlayer.setOnPreparedListener(this)
-        mMediaPlayer.setOnCompletionListener(this)
     }
 
     fun prepare(song: Song, forcePlay: Boolean) {
@@ -43,8 +42,13 @@ class SongPlayer @Inject constructor(
             android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, song.id
         )
 
+        // sometimes after calling mediaPlayer.reset() when initializing song
+        // onCompletion callback is called
+        // and mediaPlayer playing "next" song in the list instead of the selected song
+        mMediaPlayer.setOnCompletionListener(null)
         mMediaPlayer.reset()
         mMediaPlayer.setDataSource(mApplication, uri)
+        mMediaPlayer.setOnPreparedListener(this)
         mMediaPlayer.prepareAsync()
     }
 
@@ -91,7 +95,7 @@ class SongPlayer @Inject constructor(
         return Observable.fromCallable {
             val position = TimeUtils.progressToTimer(progress, mMediaPlayer.duration)
             mMediaPlayer.seekTo(position)
-            TaskResult.Success(Unit)
+            TaskResult.Success(progress)
         }
     }
 
@@ -100,11 +104,17 @@ class SongPlayer @Inject constructor(
             val currentPosition = mMediaPlayer.currentPosition
 
             if (currentPosition - time >= 0) {
-                mMediaPlayer.seekTo(currentPosition - time)
+                val newPosition = currentPosition - time
+                mMediaPlayer.seekTo(newPosition)
+                TaskResult.Success(
+                    getProgressFromPosition(newPosition)
+                )
             } else {
                 mMediaPlayer.seekTo(0)
+                TaskResult.Success(
+                    getProgressFromPosition(0)
+                )
             }
-            TaskResult.Success(Unit)
         }
     }
 
@@ -114,12 +124,23 @@ class SongPlayer @Inject constructor(
             val totalDuration = mMediaPlayer.duration
 
             if (currentPosition + time <= totalDuration) {
-                mMediaPlayer.seekTo(currentPosition + time)
+                val newPosition = currentPosition + time
+                mMediaPlayer.seekTo(newPosition)
+                TaskResult.Success(
+                    getProgressFromPosition(newPosition)
+                )
             } else {
                 mMediaPlayer.seekTo(totalDuration)
+                TaskResult.Success(
+                    getProgressFromPosition(totalDuration)
+                )
             }
-            TaskResult.Success(Unit)
         }
+    }
+
+    private fun getProgressFromPosition(currentPosition: Int): Int {
+        val totalDuration = mMediaPlayer.duration.toLong()
+        return TimeUtils.getProgressPercentage(currentPosition.toLong(), totalDuration)
     }
 
     fun getActiveSong(): Observable<TaskResult> {
@@ -147,9 +168,10 @@ class SongPlayer @Inject constructor(
         mMediaPlayer.start()
         startSongDurationEvent()
         mStatus = PlayerStatus.PLAYING
+        mMediaPlayer.setOnCompletionListener(this)
     }
 
-    // another hack.. to play next song when UI is destroyed
+    // a bit hack.. to play next song when UI is destroyed
     // only check for shuffle
     // because replay will not called onCompletion
     private fun playNextSong() {
@@ -210,7 +232,6 @@ class SongPlayer @Inject constructor(
     }
 
     override fun onCompletion(mp: MediaPlayer?) {
-        mDisposables.clear()
         playNextSong()
     }
 

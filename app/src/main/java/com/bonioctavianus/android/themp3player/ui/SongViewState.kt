@@ -35,7 +35,7 @@ sealed class SongPartialState : Mp3ViewState {
     object PlaylistVisible : SongPartialState()
     data class ReplayChanged(val status: Boolean) : SongPartialState()
     data class ShuffleChanged(val status: Boolean) : SongPartialState()
-    object PositionChanged : SongPartialState()
+    data class PositionChanged(val position: Int) : SongPartialState()
 
     sealed class LoadSongs : SongPartialState() {
         object InFlight : LoadSongs()

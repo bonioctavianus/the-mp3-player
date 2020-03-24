@@ -169,7 +169,9 @@ class PlayerInteractor @Inject constructor(
         ObservableTransformer<SongIntent.SetPosition, SongPartialState> { intents ->
             intents.flatMap { intent ->
                 mSongPlayer.setPosition(intent.progress)
-                    .map { SongPartialState.PositionChanged }
+                    .cast(TaskResult.Success::class.java)
+                    .map { it.item as Int }
+                    .map { SongPartialState.PositionChanged(it) }
             }
         }
 
@@ -177,7 +179,9 @@ class PlayerInteractor @Inject constructor(
         ObservableTransformer<SongIntent.RewindPosition, SongPartialState> { intents ->
             intents.flatMap { intent ->
                 mSongPlayer.rewindPosition(intent.time)
-                    .map { SongPartialState.PositionChanged }
+                    .cast(TaskResult.Success::class.java)
+                    .map { it.item as Int }
+                    .map { SongPartialState.PositionChanged(it) }
             }
         }
 
@@ -185,7 +189,9 @@ class PlayerInteractor @Inject constructor(
         ObservableTransformer<SongIntent.ForwardPosition, SongPartialState> { intents ->
             intents.flatMap { intent ->
                 mSongPlayer.forwardPosition(intent.time)
-                    .map { SongPartialState.PositionChanged }
+                    .cast(TaskResult.Success::class.java)
+                    .map { it.item as Int }
+                    .map { SongPartialState.PositionChanged(it) }
             }
         }
 

@@ -7,6 +7,7 @@ import android.widget.FrameLayout
 import android.widget.SeekBar
 import androidx.fragment.app.FragmentManager
 import com.bonioctavianus.android.themp3player.R
+import com.bonioctavianus.android.themp3player.model.Song
 import com.bonioctavianus.android.themp3player.usecase.SongPlayer
 import com.jakewharton.rxbinding3.view.clicks
 import io.reactivex.Observable
@@ -103,7 +104,7 @@ class PlayerView(context: Context, attributeSet: AttributeSet) :
             if (song.artist != text_artist.text) {
                 text_artist.text = if (song.artist.isNotBlank()) song.artist else "Unknown Artist"
             }
-
+            seekbar.progress = progress
             text_current_duration.text = currentDuration
             text_total_duration.text = totalDuration
         }
@@ -111,6 +112,7 @@ class PlayerView(context: Context, attributeSet: AttributeSet) :
     }
 
     fun renderDuration(state: SongViewState) {
+        mCurrentState = state
         val currentDuration = state.data?.track?.currentDuration ?: "0:00"
         val progress = state.data?.track?.progress ?: 0
         text_current_duration.text = currentDuration
@@ -187,6 +189,15 @@ class PlayerView(context: Context, attributeSet: AttributeSet) :
                     return@setOnClickListener
                 }
 
+                if (mCurrentState?.shuffle == true) {
+                    emitter.onNext(
+                        SongIntent.SwitchSong(
+                            getRandomSong(songs)
+                        )
+                    )
+                    return@setOnClickListener
+                }
+
                 val currentSongIndex = songs.indexOfFirst { it == song }
                 if (currentSongIndex == -1) {
                     return@setOnClickListener
@@ -218,6 +229,15 @@ class PlayerView(context: Context, attributeSet: AttributeSet) :
                     return@setOnClickListener
                 }
 
+                if (mCurrentState?.shuffle == true) {
+                    emitter.onNext(
+                        SongIntent.SwitchSong(
+                            getRandomSong(songs)
+                        )
+                    )
+                    return@setOnClickListener
+                }
+
                 val currentSongIndex = songs.indexOfFirst { it == song }
                 if (currentSongIndex == -1) {
                     return@setOnClickListener
@@ -234,6 +254,11 @@ class PlayerView(context: Context, attributeSet: AttributeSet) :
                 }
             }
         }
+    }
+
+    private fun getRandomSong(songs: List<Song>): Song {
+        val randomIndex = (songs.indices).random()
+        return songs[randomIndex]
     }
 
     override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) = Unit
